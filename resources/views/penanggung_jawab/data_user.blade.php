@@ -16,18 +16,15 @@
         <div class="card">
             <div class="card-header">
                 Semua Data user
-                <div class="float-end">
-                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#add-modal" id="btn-show-add-modal">Tambah user</button>
-                </div>
             </div>
             <div class="card-body">
                 <table id="tabledata" class="table table-hover">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">ID Alat</th>
-                            <th scope="col">Alamat</th>
-                            <th scope="col">Nama user</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">No Telepon</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -142,19 +139,19 @@
     var lastId = 0;
 
     // get post data
-    database.ref("user").on('value', function(snapshot) {
+    database.ref("warga").on('value', function(snapshot) {
         var value = snapshot.val();
         var htmls = [];
         var no = 1;
 
         $.each(value, function(index, value) {
-            if (value && value.user_id === "{{Session::get('uid')}}") {
+            if (value) {
 
                 htmls.push('<tr>\
                         <td>' + no++ + '</td>\
-                        <td>' + value.id_hardware + '</td>\
-                        <td>' + value.alamat + '</td>\
-                        <td>' + value.namauser + '</td>\
+                        <td>' + value.penanggungJawab + '</td>\
+                        <td>' + value.email + '</td>\
+                        <td>' + value.telp + '</td>\
                         <td>\
                         <a class="btn btn-primary mt-1" href="datakolam/' + value.id_hardware + '" >Detail user</a>\
                         <a data-bs-toggle="modal" data-bs-target="#update-modal" class="btn btn-success mt-1 update-post" data-id="' + index + '">Edit</a>\
@@ -176,150 +173,5 @@
     let isClickedBtnShowModal = false;
     let elderHardware = [];
 
-    $('#btn-show-add-modal').on('click', function() {
-        database.ref("user").on('value', function(snapshot) {
-            var value = snapshot.val();
-            var htmls = [];
-            var no = 1;
-        
-            Object.values(value).filter(val => {
-                !isClickedBtnShowModal ? elderHardware.push(val.id_hardware) : "";
-            })
-            isClickedBtnShowModal = true;
-        });
-    })
-
-    $('#id_hardware').on('keyup', function() {
-        let inputIdHardware = $('#id_hardware').val();
-        const warnnigText = $('#warning-text-id-hardware');
-        const btnSubmit = $('#add-submit');
-        if (inputIdHardware !== '') {
-            console.log("ELDER: " + elderHardware);
-            elderHardware.forEach(elder => {
-                console.log("data: " + elder)
-                if (elder.toLowerCase() == inputIdHardware.toLowerCase()) {
-                    console.log("id: " + inputIdHardware)
-                    console.log("return: " + elder.toLowerCase().includes(inputIdHardware.toLowerCase()));
-                    warnnigText.css('visibility', 'visible');
-                    btnSubmit.prop('disabled', true);
-                    throw BreakException
-                } else {
-                    warnnigText.css('visibility', 'hidden');
-                    btnSubmit.prop('disabled', false);
-                }
-            })
-        }
-    })
-
-
-    // add data
-    $('#add-submit').on('click', function() {
-        var formData = $('#add-post').serializeArray();
-        var createId = Number(lastId) + 1;
-
-        firebase.database().ref('user/' + createId).set({
-            id_hardware: formData[0].value,
-            alamat: formData[1].value,
-            namauser: formData[2].value,
-            user_id: formData[3].value,
-        });
-
-        // Reassign lastID value
-        lastId = createId;
-        $("#add-post")[0].reset();
-        $("#add-modal").modal('hide');
-        location.reload();
-    });
-
-    // update modal
-    var updateID = 0;
-    $('body').on('click', '.update-post', function() {
-        updateID = $(this).attr('data-id');
-        firebase.database().ref('user/' + updateID).on('value', function(snapshot) {
-            var values = snapshot.val();
-            $('#update-id_hardware').val(values.id_hardware);
-            $('#update-alamat').val(values.alamat);
-            $('#update-namauser').val(values.namauser);
-            $('#update-user_id').val(values.user_id);
-        });
-    });
-
-    // update post
-    $('#update-button').on('click', function() {
-        var values = $("#update-post").serializeArray();
-        var postData = {
-            id_hardware: values[0].value,
-            alamat: values[1].value,
-            namauser: values[2].value,
-            user_id: values[3].value,
-        };
-
-        var updatedPost = {};
-        updatedPost['/user/' + updateID] = postData;
-
-        firebase.database().ref().update(updatedPost);
-
-        $("#update-modal").modal('hide');
-        $("#update-post")[0].reset();
-        location.reload();
-    });
-
-    // delete modal
-    $("body").on('click', '.delete-data', function() {
-        var id = $(this).attr('data-id');
-        $('#post-id').val(id);
-    });
-
-    // delete post
-    $('#delete-button').on('click', function() {
-        var id = $('#post-id').val();
-        let idHardware = "";
-        let filteredKolam = [];
-        let filteredAlat = [];
-
-        database.ref('user/' + id).on('value', (snapshot) => {
-            idHardware = snapshot.val().id_hardware;
-        })
-
-        database.ref().child("kolam").orderByChild("id_hardware").equalTo(idHardware).once('value', snapshot => {
-            const updates = {};
-            snapshot.forEach(child => updates[child.key] = null);
-            database.ref("kolam").update(updates);
-        });
-
-        database.ref().child("alat").orderByChild("id_hardware").equalTo(idHardware).once('value', snapshot => {
-            const updates = {};
-            snapshot.forEach(child => updates[child.key] = null);
-            database.ref("alat").update(updates);
-        });
-
-        firebase.database().ref('user/' + id).remove();
-
-        $('#post-id').val('');
-        $("#delete-modal").modal('hide');
-        location.reload();
-        
-    });
-    
-    database.ref("profile").on('value', function(snapshot) {
-            var value = snapshot.val();
-            var htmls = [];
-            $.each(value, function(index, value) {
-                if (value && value.user_id === "{{Session::get('uid')}}") {
-                    htmls.push('' + value.name + '');
-                }
-            });
-            $('#nama-user').html(htmls);
-        });
-        database.ref("profile").on('value', function(snapshot) {
-            var value = snapshot.val();
-            var htmls = [];
-            $.each(value, function(index, value) {
-                if (value && value.user_id === "{{Session::get('uid')}}") {
-                    htmls.push('' + value.email + '');
-                }
-            });
-            $('#email-user').html(htmls);
-        });
 </script>
 @endsection
