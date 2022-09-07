@@ -17,10 +17,17 @@ use App\Http\Controllers\Auth\RegisterController;
 |
 */
 
+Route::get('/datatambak', function(){
+    return view('penanggung_jawab.coba');
+})->name('datatambak');
+    
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::post('/', function () {
+    return view('welcome');
+})->name('addPenanggungJawab');
 
 Route::get('/table', function () {
     return view('table');
