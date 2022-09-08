@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    @include('layouts.style')
+    @include('layouts3.style')
 </head>
 
 <body>
@@ -15,15 +15,15 @@
     <!-- Loader ends-->
     <!-- page-wrapper Start-->
     <div class="page-wrapper" id="pageWrapper">
-        @include('layouts.navbar')
+        @include('layouts3.navbar')
         <!-- Page Body Start-->
         <div class="page-body-wrapper horizontal-menu">
-            @include('layouts.sidebar')
+            @include('layouts3.sidebar')
             @yield('content')
-            @include('layouts.footer')
+            @include('layouts3.footer')
         </div>
     </div>
-    @include('layouts.script')
+    @include('layouts3.script')
 </body>
 
 </html>

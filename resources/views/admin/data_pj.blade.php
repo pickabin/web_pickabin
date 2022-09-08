@@ -71,23 +71,20 @@
     const app = firebase.initializeApp(firebaseConfig);
     var database =  firebase . database ();
     // var databaseauth = firebase.auth();
-    var lastId =  0 ;    
     // get profile data
-    database.ref("profile").on('value', function(snapshot) {
+    database.ref("penanggungJawab").on('value', function(snapshot) {
         var value = snapshot.val();
         var htmls = [];
         $.each(value, function(index, value) {
             if (value) {
                 htmls.push('<tr>\
                         <td>' + index + '</td>\
-                        <td>' + value.name + '</td>\
+                        <td>' + value.nama + '</td>\
                         <td>' + value.email + '</td>\
                         <td>' + value.password + '</td>\
-                        <td><a data-bs-toggle="modal" data-bs-target="#update-modal" class="btn text-white btn-success update-post" data-id="' + index + '">Edit</a>\
-                        <a data-bs-toggle="modal" data-bs-target="#delete-modal" class="btn text-white btn-danger delete-data" data-id="' + index + '">Hapus</a></td>\
+                        <td><a data-bs-toggle="modal" data-bs-target="#update-modal" class="btn text-white btn-success update-post" data-id="' + index + '">Edit</a>\</td>\
                     </tr>');
             }
-            lastId = index;
         });
         $('#table-list').html(htmls);
         var table = $('#tabledata').DataTable({
@@ -97,14 +94,6 @@
         });
         new $.fn.dataTable.FixedHeader(table);
     });
-    
-    // delete post
-    $('#delete-button').on('click', function() {
-        var id =  $ ( ' #post-id ' ). choice ();
-        firebase.database().ref('profile/' + id).remove();
-        $('#post-id').val('');
-        $("#delete-modal").modal('hide');
-        location.reload();
-    });
+
 </script>
 @endsection

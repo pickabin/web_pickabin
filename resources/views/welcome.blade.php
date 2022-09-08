@@ -643,8 +643,8 @@
                 <div class="title">
                     <h2>Core Feature</h2>
                 </div>
-                <div class="custom-container">
-                    <form class="form theme-form" id="add-post" method="POST">
+                <div class="custom-container" tabindex="-1">
+                    <form class="form theme-form" id="add-post" method="post">
                         @csrf
                         <div class="card-body">
                             <div class="row">
@@ -917,25 +917,24 @@
 
         var database = firebase.database();
 
+        database.ref("penanggungJawab").on('value', function(snapshot) {
+                var value = snapshot.val();
+        });
 
         // add data
         $('#add-submit').on('click', function() {
             var formData = $('#add-post').serializeArray();
 
-            firebase.database().ref('penanggungJawab/').push({
+            database.ref('penanggungJawab/').push({
+                status: 0,
                 nama: formData[0].value,
                 alamat: formData[1].value,
                 kode_pos: formData[2].value,
                 no_wa: formData[3].value,
                 email: formData[4].value,
                 password: formData[5].value,
-
             });
-            // firebase.database().ref('kolam').once('value', function(snapshot) {
-            //     var id_kolam = snapshot.numChildren();
-            // })
 
-            // Reassign lastID value
             $("#add-post")[0].reset();
             location.reload();
         });

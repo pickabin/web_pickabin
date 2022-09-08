@@ -118,8 +118,7 @@
                                 <label for="noted" class="form-label">Catatan</label>
                                 <textarea class="form-control" name="noted" id="noted"></textarea>
                             </div>
-                            <input type="hidden" value="{{Session::get('uid')}}" name="user_id" id="user_id">
-                            <input type="hidden" class="form-control" value="{{$id_hardware}}" name="id_hardware" id="id_hardware">
+                           
                             <button type="button" id="add-submit" class="btn btn-primary">Tambah</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         </form>
@@ -158,8 +157,7 @@
                                 <label for="update-noted" class="form-label">Catatan</label>
                                 <textarea class="form-control" name="update-noted" id="update-noted"></textarea>
                             </div>
-                            <input type="hidden" value="{{Session::get('uid')}}" name="user_id" id="update-user_id">
-                            <input type="hidden" class="form-control" value="{{$id_hardware}}" name="id_hardware" id="update-id_hardware">
+                           
                             <button type="button" id="update-button" class="btn btn-primary">Ubah</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         </form>
@@ -205,179 +203,35 @@
 
             var database = firebase.database();
 
-            var lastId = 0;
 
 
             // get post data
             database.ref("kolam").on('value', function(snapshot) {
                 var value = snapshot.val();
-                var htmls = [];
-                var no = 1;
-                $.each(value, function(index, value) {
-                    if (value && value.id_hardware === '{{$id_hardware}}' && value.user_id === "{{Session::get('uid')}}") {
-                        htmls.push('<tr>\
-                        <td>' + value.id_kolam + '</td>\
-                        <td>' + value.nama_kolam + '</td>\
-                        <td>' + value.panjang + '</td>\
-                        <td>' + value.lebar + '</td>\
-                        <td>' + value.kedalaman + '</td>\
-                        <td>' + value.noted + '</td>\
-                        <td><a class="btn btn-primary mt-1" href="../../dataalat/' + value.id_hardware + '/' + value.id_kolam + '" >Detail Kolam</a>\
-                        <a data-bs-toggle="modal" data-bs-target="#update-modal" class="btn btn-success mt-1 update-post" data-id="' + index + '">Edit</a>\
-                        <a data-bs-toggle="modal" data-bs-target="#delete-modal" class="btn btn-danger mt-1 delete-data" data-id="' + index + '">Hapus</a></td>\
-                    </tr>');
-                    }
-                    lastId = index;
-                });
-                $('#table-list').html(htmls);
-
-                var table = $('#tabledata').DataTable({
-                    responsive: true,
-                    stateSave: true,
-                    "bDestroy": true
-                });
-                new $.fn.dataTable.FixedHeader(table);
-
             });
-            // post nama Tambak
-            database.ref("tambak").on('value', function(snapshot) {
-                var value = snapshot.val();
-                var htmls = [];
-                $.each(value, function(index, value) {
-                    if (value && value.id_hardware === '{{$id_hardware}}') {
-                        htmls.push('' + value.namatambak + ' (' + value.id_hardware + ')');
-                    }
-                });
-                $('#nama-tambak').html(htmls);
-            });
+           
 
             // add data
             $('#add-submit').on('click', function() {
                 var formData = $('#add-post').serializeArray();
-                var createId = Number(lastId) + 1;
-                var id_kolam = 1;
-
-                // Get Latest ID KOLAM
-                database.ref("kolam").on('value', function(snapshot) {
-                    var value = snapshot?.val();
-
-                    // Filter data by ID TAMBAK
-                    var filteredData = value.filter(function(el) {
-                        return el.id_hardware == '{{$id_hardware}}';
-                    });
-
-                    // Assign ID KOLAM
-                    var latestFilteredData = Object.values(filteredData).pop();
-                    latestFilteredData?.id_kolam == null ? id_kolam : id_kolam = latestFilteredData.id_kolam + 1;
-                });
-
-                firebase.database().ref('kolam/' + createId).set({
-                    id_kolam: id_kolam,
+              
+                firebase.database().ref('kolam/').push({
                     nama_kolam: formData[0].value,
                     panjang: formData[1].value,
                     lebar: formData[2].value,
                     kedalaman: formData[3].value,
                     noted: formData[4].value,
-                    user_id: formData[5].value,
-                    id_hardware: formData[6].value,
 
                 });
-                // firebase.database().ref('kolam').once('value', function(snapshot) {
-                //     var id_kolam = snapshot.numChildren();
-                // })
 
                 // Reassign lastID value
-                lastId = createId;
                 $("#add-post")[0].reset();
                 $("#add-modal").modal('hide');
                 location.reload();
             });
 
-            // update modal
-            var updateID = 0;
-            $('body').on('click', '.update-post', function() {
-                updateID = $(this).attr('data-id');
-                firebase.database().ref('kolam/' + updateID).on('value', function(snapshot) {
-                    var values = snapshot.val();
-                    $('#update-nama_kolam').val(values.nama_kolam);
-                    $('#update-panjang').val(values.panjang);
-                    $('#update-lebar').val(values.lebar);
-                    $('#update-kedalaman').val(values.kedalaman);
-                    $('#update-noted').val(values.noted);
-                    $('#update-user_id').val(values.user_id);
-                    $('#update-id_hardware').val(values.id_hardware);
-                });
-            });
+            
 
-            // update post
-            $('#update-button').on('click', function() {
-                var values = $("#update-post").serializeArray();
-                var createId = Number(lastId);
-                var id_kolam = 1;
-
-                // Get Latest ID KOLAM
-                database.ref("kolam").on('value', function(snapshot) {
-                    var value = snapshot?.val();
-
-                    // Filter data by ID TAMBAK
-                    var filteredData = value.filter(function(el) {
-                        return el.id_hardware == '{{$id_hardware}}';
-                    });
-
-                    // Assign ID KOLAM
-                    var latestFilteredData = Object.values(filteredData).pop();
-                    latestFilteredData?.id_kolam == null ? id_kolam : id_kolam = latestFilteredData.id_kolam;
-                });
-                var postData = {
-                    id_kolam: id_kolam,
-                    nama_kolam: values[0].value,
-                    panjang: values[1].value,
-                    lebar: values[2].value,
-                    kedalaman: values[3].value,
-                    noted: values[4].value,
-                    user_id: values[5].value,
-                    id_hardware: values[6].value,
-                };
-
-                var updatedPost = {};
-                updatedPost['/kolam/' + updateID] = postData;
-
-                firebase.database().ref().update(updatedPost);
-
-                $("#update-modal").modal('hide');
-                $("#update-post")[0].reset();
-                location.reload();
-            });
-
-            // delete modal
-            $("body").on('click', '.delete-data', function() {
-                var id = $(this).attr('data-id');
-                $('#post-id').val(id);
-            });
-
-            // delete post
-            $('#delete-button').on('click', function() {
-                var id = $('#post-id').val();
-                let idHardware = "";
-                let filteredAlat = [];
-
-                database.ref('kolam/' + id).on('value', (snapshot) => {
-                    idHardware = snapshot.val().id_hardware;
-                })
-
-                database.ref().child("alat").orderByChild("id_hardware").equalTo(idHardware).once('value', snapshot => {
-                    const updates = {};
-                    snapshot.forEach(child => updates[child.key] = null);
-                    database.ref("alat").update(updates);
-                });
-
-                firebase.database().ref('kolam/' + id).remove();
-
-                $('#post-id').val('');
-                $("#delete-modal").modal('hide');
-                location.reload();
-
-            });
         </script>
     </div>
 </body>
