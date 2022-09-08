@@ -81,7 +81,7 @@
                                             target="_blank">Document</a></li>
                                 </ul>
                                 <div class="buy-block"><a class="btn-landing" href="{{ route('login') }}"
-                                        target="_blank">Login</a>
+                                        >Login</a>
                                     <div class="toggle-menu"><i class="fa fa-bars"></i></div>
                                 </div>
                             </nav>
@@ -650,8 +650,8 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label class="form-label" for="nama">Nama Lengkap</label>
-                                        <input class="form-control" id="nama" name="nama" type="text">
+                                        <label class="form-label" for="name">Name Lengkap</label>
+                                        <input class="form-control" id="name" name="name" type="text">
                                     </div>
                                 </div>
                             </div>
@@ -675,7 +675,7 @@
                                 <div class="col">
                                     <div class="mb-3">
                                         <label class="form-label" for="no_wa">No. WhatsApp</label>
-                                        <input class="form-control" id="no_wa" name="no_wa" type="text">
+                                        <input class="form-control" id="no_wa" name="no_wa" type="number">
                                     </div>
                                 </div>
                             </div>
@@ -926,13 +926,13 @@
             var formData = $('#add-post').serializeArray();
 
             database.ref('penanggungJawab/').push({
+                password: formData[0].value,
+                name: formData[1].value,
+                alamat: formData[2].value,
+                kode_pos: formData[3].value,
+                no_wa: formData[4].value,
+                email: formData[5].value,
                 status: 0,
-                nama: formData[0].value,
-                alamat: formData[1].value,
-                kode_pos: formData[2].value,
-                no_wa: formData[3].value,
-                email: formData[4].value,
-                password: formData[5].value,
             });
 
             $("#add-post")[0].reset();

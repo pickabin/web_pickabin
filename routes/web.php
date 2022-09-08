@@ -30,6 +30,9 @@ Route::post('/', function () {
     return view('welcome');
 })->name('addPenanggungJawab');
 
+Route::post('/konfirmasi/{index}', [RegisterController::class, 'register'])
+->name('konfirmasi');
+
 Route::get('/table', function () {
     return view('table');
 });

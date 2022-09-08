@@ -21,7 +21,7 @@
                             <th scope="col">ID</th>
                             <th scope="col">Nama</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Password</th>
+                            <th scope="col">Kode Pos</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -79,10 +79,10 @@
             if (value) {
                 htmls.push('<tr>\
                         <td>' + index + '</td>\
-                        <td>' + value.nama + '</td>\
+                        <td>' + value.name + '</td>\
                         <td>' + value.email + '</td>\
-                        <td>' + value.password + '</td>\
-                        <td><a data-bs-toggle="modal" data-bs-target="#update-modal" class="btn text-white btn-success update-post" data-id="' + index + '">Edit</a>\</td>\
+                        <td>' + value.kode_pos + '</td>\
+                        <td><a class="btn text-white btn-success update-post" href="/konfirmasi/' + index + '">Konfirmasi</a>\</td>\
                     </tr>');
             }
         });

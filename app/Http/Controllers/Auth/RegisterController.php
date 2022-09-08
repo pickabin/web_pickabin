@@ -15,6 +15,7 @@ use Kreait\Firebase\Exception\FirebaseException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Session;
 
+
 class RegisterController extends Controller
 {
     /*
@@ -28,8 +29,8 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
-    protected $auth;
+   use RegistersUsers;
+   protected $auth;
 	private $database;
 
     /**
@@ -37,8 +38,8 @@ class RegisterController extends Controller
      *
      * @var string
      */
-      protected $redirectTo = RouteServiceProvider::HOME;
-    public function __construct(FirebaseAuth $auth) {
+   protected $redirectTo = RouteServiceProvider::HOME;
+   public function __construct(FirebaseAuth $auth) {
        $this->middleware('guest');
        $this->auth = $auth;
 		
