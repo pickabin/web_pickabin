@@ -2,10 +2,10 @@
       <div class="page-main-header">
           <div class="main-header-right row m-0">
               <div class="main-header-left">
-                  <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="../assets/images/logo/logo.png"
+                  <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="/assets3/images/logo/logo.png"
                               alt=""></a></div>
                   <div class="dark-logo-wrapper"><a href="index.html"><img class="img-fluid"
-                              src="../assets/images/logo/dark-logo.png" alt=""></a></div>
+                              src="/assets3/images/logo/dark-logo.png" alt=""></a></div>
                   <div class="toggle-sidebar"><i class="status_toggle middle" data-feather="align-center"
                           id="sidebar-toggle"></i></div>
               </div>
@@ -99,7 +99,7 @@
                           <ul class="chat-dropdown onhover-show-div">
                               <li>
                                   <div class="media"><img class="img-fluid rounded-circle me-3"
-                                          src="../assets/images/user/4.jpg" alt="">
+                                          src="/assets3/images/user/4.jpg" alt="">
                                       <div class="media-body"><span>Ain Chavez</span>
                                           <p class="f-12 light-font">Lorem Ipsum is simply dummy...</p>
                                       </div>
@@ -108,7 +108,7 @@
                               </li>
                               <li>
                                   <div class="media"><img class="img-fluid rounded-circle me-3"
-                                          src="../assets/images/user/1.jpg" alt="">
+                                          src="/assets3/images/user/1.jpg" alt="">
                                       <div class="media-body"><span>Erica Hughes</span>
                                           <p class="f-12 light-font">Lorem Ipsum is simply dummy...</p>
                                       </div>
@@ -117,7 +117,7 @@
                               </li>
                               <li>
                                   <div class="media"><img class="img-fluid rounded-circle me-3"
-                                          src="../assets/images/user/2.jpg" alt="">
+                                          src="/assets3/images/user/2.jpg" alt="">
                                       <div class="media-body"><span>Kori Thomas</span>
                                           <p class="f-12 light-font">Lorem Ipsum is simply dummy...</p>
                                       </div>
