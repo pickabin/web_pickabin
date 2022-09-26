@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "993ab4bcdb6d4ffc951c3e1262f6cae0",
+    "content-hash": "a821684bb37b97cd13f7d47c78043785",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -869,16 +869,16 @@
         },
         {
             "name": "google/cloud-firestore",
-            "version": "v1.25.1",
+            "version": "v1.25.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-firestore.git",
-                "reference": "247cd30e2056202c740b3981df03fd0e861f0876"
+                "reference": "491da6b3b3bea56c41ddc1f7a08a719ac959ef74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-firestore/zipball/247cd30e2056202c740b3981df03fd0e861f0876",
-                "reference": "247cd30e2056202c740b3981df03fd0e861f0876",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-firestore/zipball/491da6b3b3bea56c41ddc1f7a08a719ac959ef74",
+                "reference": "491da6b3b3bea56c41ddc1f7a08a719ac959ef74",
                 "shasum": ""
             },
             "require": {
@@ -890,6 +890,7 @@
             "require-dev": {
                 "erusev/parsedown": "^1.6",
                 "phpdocumentor/reflection": "^3.0||^4.0",
+                "phpspec/prophecy": "^1.10.3",
                 "phpunit/phpunit": "^4.8|^5.0|^8.0",
                 "squizlabs/php_codesniffer": "2.*",
                 "yoast/phpunit-polyfills": "^1.0"
@@ -918,9 +919,9 @@
             ],
             "description": "Cloud Firestore client for PHP",
             "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-firestore/tree/v1.25.1"
+                "source": "https://github.com/googleapis/google-cloud-php-firestore/tree/v1.25.3"
             },
-            "time": "2022-08-05T00:41:21+00:00"
+            "time": "2022-09-16T02:33:04+00:00"
         },
         {
             "name": "google/cloud-storage",
